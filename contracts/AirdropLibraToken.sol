@@ -8,8 +8,12 @@ contract AirdropLibraToken is Ownable {
     using SafeMath for uint256;
 
     uint256 decimal = 10**uint256(18);
+
+    //How many tokens will be airdropped
     uint256 TOTAL_AIRDROP_SUPPLY = 0;
     uint256 TOTAL_AIRDROP_SUPPLY_UNITS = TOTAL_AIRDROP_SUPPLY.mul(decimal)  ;
+
+    //How many tokens had be distributed
     uint256 distributedTotal = 0;
 
     uint256 airdropStartTime;
@@ -22,7 +26,10 @@ contract AirdropLibraToken is Ownable {
     // List of admins
     mapping (address => bool) public airdropAdmins;
 
+    //List of dropped users
     mapping (address => bool) public airdrops;
+
+    //dropped users and their amount
     mapping (address => uint256) public airdropAmount;
 
 
@@ -31,7 +38,6 @@ contract AirdropLibraToken is Ownable {
         require(msg.sender == owner || airdropAdmins[msg.sender]);
         _;
     }
-
 
 
     function addAdmin(address _admin) public onlyOwner {
