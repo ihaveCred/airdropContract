@@ -35,7 +35,6 @@ var files = ['../contracts/LibraToken.sol',
     '../node_modules/zeppelin-solidity/contracts/token/ERC20/ERC20.sol',
     '../node_modules/zeppelin-solidity/contracts/token/ERC20/ERC20Basic.sol'];
 var complieResult = complie(files);
-console.log(complieResult);
 
 var LibraTokenSaleCode = complieResult.contracts['../contracts/AirDropLibraToken.sol:AirDropLibraToken'].bytecode;
 
@@ -49,7 +48,7 @@ airDropContract.setProvider(hdProvider);
 airDropContract.defaults({from: '0x7355f48ad49f356353a52e02342c47ae452ff04e'});
 
 const LBAAddress = '0x4ea9d5265acde72b998fb24ff47bedce230896aa';
-const airDropSupply = ethUtil.eth2Wei('1000');
+const airDropSupply = ethUtil.eth2Wei('100');
 
 airDropContract.new(
     LBAAddress, //LBA token contract address

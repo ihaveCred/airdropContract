@@ -5,7 +5,7 @@ var account = {
     user3: '0x85bec395ea2d514327ea24110cdf4486ac546049'
 };
 
-var  contractAddr= '0x44c892861782af5760e41e89aebb22a709cfbd74';
+var  contractAddr= '0xa0d7edc36b6a0871b615f4c743e2906de0ec1b04';
 
 module.exports = {
     account,

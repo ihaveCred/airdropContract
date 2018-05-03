@@ -7,20 +7,13 @@ var hdProvider = new HDWalletProvider('torch hospital call alien alien render es
     'https://kovan.infura.io/FNKpcXdW3Dgou3VgYI7d');
 var web3 = new Web3(hdProvider);
 var config = require('./config');
+var ethUtil = require('./EthUtils');
 
 var tokenContract = TruffleContract({
     abi: abi
 });
 
-function main(address, amount) {
-    console.log('receiver address: ' + address);
-    console.log('airdrop amount: ' + amount);
-
-    if (!(address && amount)){
-        console.error('缺少必要的参数');
-        return;
-        process.exit(0);
-    }
+function main() {
 
     tokenContract.setProvider(hdProvider);
     tokenContract.defaults({
@@ -29,15 +22,25 @@ function main(address, amount) {
 
     tokenContract.at(config.contractAddr).then(instance => {
 
-        //collectTokens
-        instance.airdropTokens(address.toLowerCase(), amount).then(result => {
-            console.log('txHash: ' + result.tx)
+        //getAirdropSupply
+        instance.getAirdropSupply().then(result => {
+            console.log('getAirdropSupply: ' + ethUtil.wei2Eth(result.toString()))
+        }).catch(console.log)
+
+        //getDistributedSupply
+        instance.getDistributedSupply().then(result => {
+            console.log('getDistributedSupply: ' + ethUtil.wei2Eth(result.toString()))
+        }).catch(console.log)
+
+        //getAirDropAmountByAddress
+        instance.getAirDropAmountByAddress('0x6e27727Bbb9F0140024A62822f013385F4194999').then(result => {
+            console.log('getAirDropAmountByAddress: ' + ethUtil.wei2Eth(result.toString()))
         }).catch(console.log)
 
 
     }).catch(console.log);
 }
 
-main(process.argv[2], process.argv[3]);
+// main(process.argv[2], process.argv[3]);
 
-// main(config.account.user2, 1);
+main();
