@@ -9,7 +9,7 @@ contract AirdropLibraToken is Ownable {
 
     uint256 decimal = 10**uint256(18);
     uint256 TOTAL_AIRDROP_SUPPLY = 0;
-    uint256 TOTAL_AIRDROP_SUPPLY_UNITS = TOTAL_AIRDROP_SUPPLY ** decimal ;
+    uint256 TOTAL_AIRDROP_SUPPLY_UNITS = TOTAL_AIRDROP_SUPPLY.mul(decimal)  ;
     uint256 public distributedTotal = 0;
 
     uint256 airdropStartTime;
@@ -56,7 +56,7 @@ contract AirdropLibraToken is Ownable {
         airdropStartTime = _airdropStartTime;
         airdropEndTime = _airdropEndTime;
 
-        TOTAL_AIRDROP_SUPPLY_UNITS = TOTAL_AIRDROP_SUPPLY ** decimal;
+        TOTAL_AIRDROP_SUPPLY_UNITS = TOTAL_AIRDROP_SUPPLY.mul(decimal);
 
     }
 
