@@ -10,7 +10,7 @@ contract AirdropLibraToken is Ownable {
     uint256 decimal = 10**uint256(18);
     uint256 TOTAL_AIRDROP_SUPPLY = 0;
     uint256 TOTAL_AIRDROP_SUPPLY_UNITS = TOTAL_AIRDROP_SUPPLY.mul(decimal)  ;
-    uint256 public distributedTotal = 0;
+    uint256 distributedTotal = 0;
 
     uint256 airdropStartTime;
     uint256 airdropEndTime;
@@ -84,12 +84,12 @@ contract AirdropLibraToken is Ownable {
         return TOTAL_AIRDROP_SUPPLY;
     }
 
-    function getDistributedSupply() public onlyOwnerOrAdmin view returns (uint256){
+    function getDistributedTotal() public view returns (uint256){
         return distributedTotal;
     }
 
 
-    function getAirDropAmountByAddress(address _user) public onlyOwnerOrAdmin view returns (uint256) {
+    function getAirDropAmountByAddress(address _user) public view returns (uint256) {
         return airdropAmount[_user];
     }
 
