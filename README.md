@@ -14,4 +14,4 @@ This is a smart contract for airdrop LBA tokens
 ### 4、airdrop tokens
 Replace the contractAddr field value in the test/config.js file with the contract address generated in the third step
 
-        $ airdrop.bat account airdropNumber
+        $ airdrop.bat receiver airdropNumber
