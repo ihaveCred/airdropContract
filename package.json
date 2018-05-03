@@ -1,0 +1,30 @@
+{
+  "name": "airdroplba",
+  "version": "1.0.0",
+  "description": "lba token are drop",
+  "main": "truffle.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "solc": "^0.4.16",
+    "truffle": "^4.1.3",
+    "zeppelin-solidity": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "truffle-hdwallet-provider": "^0.0.5"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-preset-stage-3": "^6.17.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-register": "^6.23.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
