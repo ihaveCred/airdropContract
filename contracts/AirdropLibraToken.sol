@@ -4,7 +4,7 @@ import "../node_modules/zeppelin-solidity/contracts/math/SafeMath.sol";
 import "../node_modules/zeppelin-solidity/contracts/ownership/Ownable.sol";
 import "./LibraToken.sol";
 
-contract AirDropLibraToken is Ownable {
+contract AirdropLibraToken is Ownable {
     using SafeMath for uint256;
 
     uint256 decimal = 10**uint256(18);
@@ -12,8 +12,8 @@ contract AirDropLibraToken is Ownable {
     uint256 TOTAL_AIRDROP_SUPPLY_UNITS = TOTAL_AIRDROP_SUPPLY ** decimal ;
     uint256 public distributedTotal = 0;
 
-    uint256 airDropStartTime;
-    uint256 airDropEndTime;
+    uint256 airdropStartTime;
+    uint256 airdropEndTime;
 
     // The token being dropped
     LibraToken public token;
@@ -22,8 +22,8 @@ contract AirDropLibraToken is Ownable {
     // List of admins
     mapping (address => bool) public airdropAdmins;
 
-    mapping (address => bool) public airDrops;
-    mapping (address => uint256) public airDropAmount;
+    mapping (address => bool) public airdrops;
+    mapping (address => uint256) public airdropAmount;
 
 
 
@@ -39,42 +39,42 @@ contract AirDropLibraToken is Ownable {
     }
 
 
-    modifier onlyWhileAirDropPhaseOpen {
-        require(block.timestamp > airDropStartTime && block.timestamp < airDropEndTime);
+    modifier onlyWhileAirdropPhaseOpen {
+        require(block.timestamp > airdropStartTime && block.timestamp < airdropEndTime);
         _;
     }
 
 
-    function AirDropLibraToken(
+    function AirdropLibraToken(
         ERC20 _token,
-        uint256 _airDropTotal,
-        uint256 _airDropStartTime,
-        uint256 _airDropEndTime
+        uint256 _airdropTotal,
+        uint256 _airdropStartTime,
+        uint256 _airdropEndTime
     ) public {
         token = LibraToken(_token);
-        TOTAL_AIRDROP_SUPPLY = _airDropTotal;
-        airDropStartTime = _airDropStartTime;
-        airDropEndTime = _airDropEndTime;
+        TOTAL_AIRDROP_SUPPLY = _airdropTotal;
+        airdropStartTime = _airdropStartTime;
+        airdropEndTime = _airdropEndTime;
 
         TOTAL_AIRDROP_SUPPLY_UNITS = TOTAL_AIRDROP_SUPPLY ** decimal;
 
     }
 
 
-    function airdropTokens(address _recipient, uint256 amount) public onlyOwnerOrAdmin onlyWhileAirDropPhaseOpen {
+    function airdropTokens(address _recipient, uint256 amount) public onlyOwnerOrAdmin onlyWhileAirdropPhaseOpen {
         require(amount > 0);
-        uint256 airDropUnit = amount.mul(decimal);
-        require(token.balanceOf(this) >= airDropUnit);
+        uint256 airdropUnit = amount.mul(decimal);
+        require(token.balanceOf(this) >= airdropUnit);
 
-        if (!airDrops[_recipient]) {
-            airDrops[_recipient] = true;
+        if (!airdrops[_recipient]) {
+            airdrops[_recipient] = true;
 
-            airDropAmount[_recipient] = airDropUnit;
+            airdropAmount[_recipient] = airdropUnit;
 
-            require(token.transfer(_recipient, airDropUnit));
+            require(token.transfer(_recipient, airdropUnit));
 
-            TOTAL_AIRDROP_SUPPLY = TOTAL_AIRDROP_SUPPLY.sub(airDropUnit);
-            distributedTotal = distributedTotal.add(airDropUnit);
+            TOTAL_AIRDROP_SUPPLY = TOTAL_AIRDROP_SUPPLY.sub(airdropUnit);
+            distributedTotal = distributedTotal.add(airdropUnit);
         }
 
     }
@@ -90,7 +90,7 @@ contract AirDropLibraToken is Ownable {
 
 
     function getAirDropAmountByAddress(address _user) public onlyOwnerOrAdmin view returns (uint256) {
-        return airDropAmount[_user];
+        return airdropAmount[_user];
     }
 
     function isAdmin(address _addr) public view returns (bool){

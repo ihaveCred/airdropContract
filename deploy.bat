@@ -1,0 +1,1 @@
+node test/DeployAirdropContract.js

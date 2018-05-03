@@ -4,7 +4,7 @@
   "description": "lba token are drop",
   "main": "truffle.js",
   "directories": {
-    "deploy": "node test/DeployAirDropContract.js",
+    "deploy": "node test/DeployAirdropContract.js"
   },
   "dependencies": {
     "babel-register": "^6.26.0",
@@ -27,7 +27,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "node test/DeployAirDropContract.js",
+    "deploy": "node test/DeployAirdropContract.js",
     "airDrop": "airdrop.bat"
   },
   "author": "",

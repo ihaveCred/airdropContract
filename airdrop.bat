@@ -1,1 +1,1 @@
-node test/AirDropLibraTokens.js %1 %2
+node test/AirdropLibraTokens.js %1 %2

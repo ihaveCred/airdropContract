@@ -1,5 +1,5 @@
 const LibraToken = artifacts.require("LibraToken");
-const AirDropLibraToken = artifacts.require("AirDropLibraToken");
+const AirdropLibraToken = artifacts.require("AirdropLibraToken");
 
 var BigNumber = require('bignumber.js').BigNumber;
 var HDWalletProvider = require('truffle-hdwallet-provider');
@@ -12,7 +12,7 @@ const Web3 = require('web3');
 
 const web3 = new Web3(provider);
 
-contract('AirDropLibraToken Test ----- ', function (accounts) {
+contract('AirdropLibraToken Test ----- ', function (accounts) {
     const startTime = 1525258592;
     const endTime = 1525517792;
     const distributedSupply = new BigNumber(10000);
@@ -27,12 +27,12 @@ contract('AirDropLibraToken Test ----- ', function (accounts) {
         this.lbaToken = await LibraToken.new();
 
         console.log('LBA token address : ' + lbaToken.address);
-        this.contractInstance = await AirDropLibraToken.new(lbaToken.address, distributedSupply, startTime, endTime);
+        this.contractInstance = await AirdropLibraToken.new(lbaToken.address, distributedSupply, startTime, endTime);
 
         console.log('Transfer some LBA tokens to this contract');
         await this.lbaToken.transfer(this.contractInstance, distributedSupply);
 
-        console.log('AirDrop Contract Address : ' + this.contractInstance.address);
+        console.log('Airdrop Contract Address : ' + this.contractInstance.address);
     });
 
     describe('distribute LBA tokens ', function () {
