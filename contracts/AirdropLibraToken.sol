@@ -33,6 +33,10 @@ contract AirdropLibraToken is Ownable {
     mapping (address => uint256) public airdropAmount;
 
 
+    event Airdrop(address _receiver, uint256 amount);
+
+    event Addadmin(address _admin);
+
 
     modifier onlyOwnerOrAdmin() {
         require(msg.sender == owner || airdropAdmins[msg.sender]);
@@ -42,6 +46,7 @@ contract AirdropLibraToken is Ownable {
 
     function addAdmin(address _admin) public onlyOwner {
         airdropAdmins[_admin] = true;
+        Addadmin(_admin);
     }
 
 
@@ -81,6 +86,8 @@ contract AirdropLibraToken is Ownable {
 
             TOTAL_AIRDROP_SUPPLY = TOTAL_AIRDROP_SUPPLY.sub(airdropUnit);
             distributedTotal = distributedTotal.add(airdropUnit);
+
+            Airdrop(_recipient, amount);
         }
 
     }
