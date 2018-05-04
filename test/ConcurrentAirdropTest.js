@@ -13,7 +13,7 @@ var tokenContract = TruffleContract({
     abi: abi
 });
 
-function main(address, amount) {
+async function airdropTokens(address, amount, txRaw) {
     console.log('receiver address: ' + address);
     console.log('airdrop amount: ' + amount);
 
@@ -23,6 +23,13 @@ function main(address, amount) {
         process.exit(0);
     }
 
+    let params = {
+        from: config.account.owner
+    };
+    if (txRaw) {
+        params = txRaw;
+    }
+
     tokenContract.setProvider(hdProvider);
     tokenContract.defaults({
         from: config.account.owner //this address should be lowercase
@@ -30,7 +37,7 @@ function main(address, amount) {
 
     tokenContract.at(config.contractAddr).then(instance => {
 
-        //airdropTokens
+        //collectTokens
         instance.airdropTokens(address.toLowerCase(), ethUtil.eth2Wei(amount)).then(result => {
             console.log('txHash: ' + result.tx)
         }).catch(console.log)
@@ -39,7 +46,43 @@ function main(address, amount) {
     }).catch(console.log);
 }
 
-main(process.argv[2], process.argv[3]);
 
-// main(config.account.user3, 0.1);
+function main() {
+    var accounts = new Array();
+    for(var i=0; i<50; i++){
+        let account = web3.eth.accounts.create().address;
+        accounts.push(account);
+        console.log('new Account: ' + account);
+    }
 
+
+    web3.eth.getTransactionCount(config.contractAddr).then(count => {
+        let nonce = count;
+
+        for (let i = 0; i < accounts.length; i++){
+            let txRaw = {
+                nonce: nonce + i + 1
+            }
+
+
+
+            airdropTokens(accounts[i], 1, txRaw);
+        }
+    });
+
+   /* for(var i=0; i<50; i++){
+        let account = web3.eth.accounts.create().address;
+        accounts.push(account);
+        console.log('new Account: ' + account);
+    }
+
+    accounts.forEach(function (account) {
+        airdropTokens(account, 1);
+    })*/
+}
+
+function random1To500() {
+    return ( Math.floor ( Math.random () * 61 )  + 60 );
+}
+
+main();

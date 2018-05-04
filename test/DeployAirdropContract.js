@@ -28,6 +28,8 @@ function complie(files) {
 
 var files = ['../contracts/LibraToken.sol',
     '../contracts/AirdropLibraToken.sol',
+    '../contracts/AirdropList.sol',
+    '../contracts/itMaps.sol',
     '../node_modules/zeppelin-solidity/contracts/token/ERC20/StandardToken.sol',
     '../node_modules/zeppelin-solidity/contracts/math/SafeMath.sol',
     '../node_modules/zeppelin-solidity/contracts/ownership/Ownable.sol',

@@ -3,9 +3,12 @@ pragma solidity ^0.4.17;
 import "../node_modules/zeppelin-solidity/contracts/math/SafeMath.sol";
 import "../node_modules/zeppelin-solidity/contracts/ownership/Ownable.sol";
 import "./LibraToken.sol";
+import "./AirdropList.sol";
 
-contract AirdropLibraToken is Ownable {
+
+contract AirdropLibraToken is AirdropList {
     using SafeMath for uint256;
+
 
     uint256 decimal = 10**uint256(18);
 
@@ -74,22 +77,27 @@ contract AirdropLibraToken is Ownable {
 
     function airdropTokens(address _recipient, uint256 amount) public onlyOwnerOrAdmin onlyWhileAirdropPhaseOpen {
         require(amount > 0);
-        uint256 airdropUnit = amount.mul(decimal);
-        require(token.balanceOf(this) >= airdropUnit);
+        require(token.balanceOf(this) >= amount);
 
         if (!airdrops[_recipient]) {
             airdrops[_recipient] = true;
 
-            airdropAmount[_recipient] = airdropUnit;
+            airdropAmount[_recipient] = amount;
 
-            require(token.transfer(_recipient, airdropUnit));
+            require(token.transfer(_recipient, amount));
 
-            TOTAL_AIRDROP_SUPPLY = TOTAL_AIRDROP_SUPPLY.sub(airdropUnit);
-            distributedTotal = distributedTotal.add(airdropUnit);
+            TOTAL_AIRDROP_SUPPLY = TOTAL_AIRDROP_SUPPLY.sub(amount);
+            distributedTotal = distributedTotal.add(amount);
 
             Airdrop(_recipient, amount);
         }
 
+    }
+
+    function airdropTokensFromAddresList() public onlyOwnerOrAdmin onlyWhileAirdropPhaseOpen{
+        for (uint256 i = 0; i < addressAmountMap.size(); i++){
+            airdropTokens(addressAmountMap.getKeyByIndex(i), addressAmountMap.getValueByIndex(i));
+        }
     }
 
 
