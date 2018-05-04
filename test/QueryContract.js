@@ -37,6 +37,16 @@ function main() {
             console.log('getAirDropAmountByAddress: ' + ethUtil.wei2Eth(result.toString()))
         }).catch(console.log)
 
+        //isAdmin
+        instance.isAdmin('0x6e27727Bbb9F0140024A62822f013385F4194999').then(result => {
+            console.log('isAdmin: ' + result)
+        }).catch(console.log)
+
+        //isAdmin
+        instance.addAdmin('0x6e27727Bbb9F0140024A62822f013385F4194999').then(result => {
+            console.log('addAdmin: ' + result)
+        }).catch(console.log)
+
 
     }).catch(console.log);
 }
