@@ -1,10 +1,8 @@
 var config = require('./config');
 var Web3 = require('web3');
 var TruffleContract = require('truffle-contract');
-var HDWalletProvider = require('truffle-hdwallet-provider');
 var abi = require('../build/contracts/AirdropLibraToken.json').abi;
-var hdProvider = new HDWalletProvider('torch hospital call alien alien render essay duck boat vivid blossom reject',
-    'https://kovan.infura.io/FNKpcXdW3Dgou3VgYI7d');
+var hdProvider = require('./DefaultProvider').provider();
 var web3 = new Web3(hdProvider);
 var config = require('./config');
 var ethUtil = require('./EthUtils');
@@ -84,5 +82,3 @@ function main() {
 function random1To500() {
     return ( Math.floor ( Math.random () * 61 )  + 60 );
 }
-
-main();

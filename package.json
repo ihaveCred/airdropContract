@@ -4,15 +4,14 @@
   "description": "lba token are drop",
   "main": "truffle.js",
   "directories": {
-    "deploy": "node test/DeployAirdropContract.js"
+    "test": "test"
   },
   "dependencies": {
-    "babel-register": "^6.26.0",
     "bignumber.js": "^7.0.1",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "solc": "^0.4.16",
-    "truffle": "^4.1.3",
+    "truffle": "4.1.5",
     "truffle-hdwallet-provider": "^0.0.3",
     "zeppelin-solidity": "^1.7.0",
     "web3": "^1.0.0-beta.33",
@@ -26,9 +25,7 @@
     "babel-register": "^6.23.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "node test/DeployAirdropContract.js",
-    "airDrop": "airdrop.bat"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC"

@@ -1,14 +1,12 @@
 var Web3 = require('web3');
 var TruffleContract = require('truffle-contract');
-var HDWalletProvider = require('truffle-hdwallet-provider');
 var solc = require('solc');
 var fs = require('fs');
 var abi = require('../build/contracts/AirdropLibraToken.json').abi;
 var config = require('./config');
 var ethUtil = require('./EthUtils');
 
-var hdProvider = new HDWalletProvider('torch hospital call alien alien render essay duck boat vivid blossom reject',
-    'https://kovan.infura.io/FNKpcXdW3Dgou3VgYI7d');
+var hdProvider = require('./DefaultProvider').provider();
 
 var web3 = new Web3(hdProvider);
 

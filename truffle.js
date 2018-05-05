@@ -12,7 +12,7 @@ module.exports = {
     },
     networks: {
         development: {
-            provider: new HDWalletProvider(mnemonic, "https://kovan.infura.io/FNKpcXdW3Dgou3VgYI7d"),
+            provider: new HDWalletProvider(mnemonic, "https://rinkeby.infura.io/FNKpcXdW3Dgou3VgYI7d"),
             network_id: "*"
         }
     }

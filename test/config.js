@@ -5,7 +5,7 @@ var account = {
     user3: '0x85bec395ea2d514327ea24110cdf4486ac546049'
 };
 
-var  contractAddr= '0x5c0fd10bb9a9e1c37b780ed63d8a38ab05021c43';
+var  contractAddr= '0x94d93528b4d520a68ab70e210d898a7300a78715';
 
 var etherscanUrl = '';
 
