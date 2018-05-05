@@ -4,7 +4,7 @@ require('babel-register')({
 require('babel-polyfill');
 var HDWalletProvider = require("truffle-hdwallet-provider");
 
-var mnemonic = "torch hospital call alien alien render essay duck boat vivid blossom reject";
+var mnemonic = "mnemonic";
 
 module.exports = {
     mocha: {
