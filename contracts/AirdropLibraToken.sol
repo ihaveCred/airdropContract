@@ -16,7 +16,7 @@ contract AirdropLibraToken is AirdropList {
     uint256 TOTAL_AIRDROP_SUPPLY = 0;
     uint256 TOTAL_AIRDROP_SUPPLY_UNITS = TOTAL_AIRDROP_SUPPLY.mul(decimal)  ;
 
-    //How many tokens had be distributed
+    //How many tokens has been distributed
     uint256 distributedTotal = 0;
 
     uint256 airdropStartTime;
@@ -25,17 +25,18 @@ contract AirdropLibraToken is AirdropList {
     // The token being dropped
     LibraToken public token;
 
-
     // List of admins
     mapping (address => bool) public airdropAdmins;
 
-    //List of dropped users
-    mapping (address => bool) public airdrops;
 
-    //dropped users and their amount
-    mapping (address => uint256) public airdropAmount;
+    //the list that has been airdropped addresses
+    address[] public airdropDoneList;
+
+    //the map that has been aridropped with address and amount
+    mapping(address => uint256) airdropDoneAmountMap;
 
 
+    //airdrop event
     event Airdrop(address _receiver, uint256 amount);
 
     event Addadmin(address _admin);
@@ -79,59 +80,100 @@ contract AirdropLibraToken is AirdropList {
         require(amount > 0);
         require(token.balanceOf(this) >= amount);
 
-        if (!airdrops[_recipient]) {
-            airdrops[_recipient] = true;
+        require(token.transfer(_recipient, amount));
+        airdropList[_recipient] = 0;
 
-            airdropAmount[_recipient] = amount;
+        //put address into has done list
+        airdropDoneList.push(_recipient);
 
-            require(token.transfer(_recipient, amount));
-
-            delete airdropList[_recipient];
-            airdropDoneList[_recipient] = amount;
-            addressAmountMap.remove(_recipient);
-
-            TOTAL_AIRDROP_SUPPLY = TOTAL_AIRDROP_SUPPLY.sub(amount);
-            distributedTotal = distributedTotal.add(amount);
-
-            Airdrop(_recipient, amount);
+        //update airdropped actually
+        uint256 airDropAmountThisAddr = 0;
+        if(airdropDoneAmountMap[_recipient] > 0){
+            airDropAmountThisAddr = airdropDoneAmountMap[_recipient].add(amount);
+        }else{
+            airDropAmountThisAddr = amount;
         }
+
+        airdropDoneAmountMap[_recipient] = airDropAmountThisAddr;
+
+
+        super.deleteAddrFromWillDropList(_recipient);
+
+        //remove from the airdrop map
+        if(addressAmountMap.contains(_recipient)){
+            addressAmountMap.remove(_recipient);
+        }
+
+
+        TOTAL_AIRDROP_SUPPLY = TOTAL_AIRDROP_SUPPLY.sub(amount);
+        distributedTotal = distributedTotal.add(amount);
+
+        Airdrop(_recipient, amount);
 
     }
 
     function airdropTokensFromAddresList() public onlyOwnerOrAdmin onlyWhileAirdropPhaseOpen{
-        for (uint256 i = 0; i < addressAmountMap.size(); i++){
-            airdropTokens(addressAmountMap.getKeyByIndex(i), addressAmountMap.getValueByIndex(i));
+        if(addressAmountMap.size() > 0){
+            uint tmpInt = addressAmountMap.size();
+            for (uint i = 0; i < tmpInt; i++){
+                airdropTokens(addressAmountMap.getKeyByIndex(i), addressAmountMap.getValueByIndex(i));
+                //tmpInt = addressAmountMap.size();
+                --tmpInt;
+                --i;
+            }
+        }
+
+    }
+
+    function transferOutBalance() public onlyOwner() returns (bool){
+        address creator = msg.sender;
+        uint256 _balanceOfThis = token.balanceOf(this);
+        if(_balanceOfThis > 0){
+            LibraToken(token).approve(this, _balanceOfThis);
+            LibraToken(token).transferFrom(this, creator, _balanceOfThis);
+            return true;
+        }else{
+            return false;
         }
     }
 
-
+    //How many tokens are left without payment
     function getAirdropSupply() public onlyOwnerOrAdmin view returns (uint256){
         return TOTAL_AIRDROP_SUPPLY;
     }
 
+    //how many tokens have been distributed
     function getDistributedTotal() public view returns (uint256){
         return distributedTotal;
     }
 
 
-    function getAirDropAmountByAddress(address _user) public view returns (uint256) {
-        return airdropAmount[_user];
-    }
-
     function isAdmin(address _addr) public view returns (bool){
         return airdropAdmins[_addr];
     }
 
-    function getAirdroppedAmount(address _addr) public view returns (uint256){
-        return airdropDoneList[_addr];
-    }
-
-    function getWillBeAirdroppedAmount(address _addr) public view returns (uint256){
-        return airdropList[_addr];
-    }
-
-    function updateEndTime(uint256 _newEndTime) public onlyOwnerOrAdmin {
+    function updateAirdropEndTime(uint256 _newEndTime) public onlyOwnerOrAdmin {
         airdropEndTime = _newEndTime;
+    }
+
+    //get the amount in the airdrop list
+    function getAirdropAmountByAddress(address _user) public view returns (uint256) {
+        return airdropList[_user];
+    }
+
+    //get all addresses that has been airdropped
+    function getDoneAddresses() public constant returns (address[]){
+        return airdropDoneList;
+    }
+
+    //get the amount has been dropped by user's address
+    function getDoneAirdropAmount(address _addr) public view returns (uint256){
+        return airdropDoneAmountMap[_addr];
+    }
+
+    //get all addresses that will be airdropped, those addresses have not yet be distributed candy
+    function getWillDropAddresses() public constant returns (address[]){
+        return willAirdropList;
     }
 
 }

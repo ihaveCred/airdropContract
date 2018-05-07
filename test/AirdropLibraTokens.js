@@ -40,5 +40,5 @@ function main(address, amount) {
 
 // main(process.argv[2], process.argv[3]);
 
-// main(config.account.user3, 0.1);
+main('0x5Fe4d4b289c408000Af1b1e541F7195F8165eC34', '1');
 

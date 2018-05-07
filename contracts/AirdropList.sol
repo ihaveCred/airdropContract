@@ -11,11 +11,9 @@ contract AirdropList is Ownable {
 
     itMaps.itMapAddressUint addressAmountMap;
 
-    //the list of will be airdropped
+    //the list of will be airdropped(for all users)
     mapping(address => uint256) public airdropList;
-
-    //the list that has been airdropped
-    mapping(address => uint256) public airdropDoneList;
+    address[] willAirdropList;
 
     event AirdropListAddressAdded(address addr, uint256 amount);
     event AirdropListAddressRemoved(address addr);
@@ -28,13 +26,13 @@ contract AirdropList is Ownable {
 
     function addAddressToAirdropList(address addr, uint256 amount) onlyOwner public returns(bool success) {
         require(amount > 0);
-        if (!(airdropList[addr] > 0)) {
-            airdropList[addr] = amount;
 
-            addressAmountMap.insert(addr, amount);
-            AirdropListAddressAdded(addr, amount);
-            success = true;
-        }
+        airdropList[addr] = amount;
+
+        willAirdropList.push(addr);
+        addressAmountMap.insert(addr, amount);
+        AirdropListAddressAdded(addr, amount);
+        success = true;
     }
 
     function addAddressesToAirdropList(address[] addrs, uint256[] amounts) onlyOwner public returns(bool success) {
@@ -48,6 +46,10 @@ contract AirdropList is Ownable {
     function removeAddressFromAirdropList(address addr) onlyOwner public returns(bool success) {
         if (airdropList[addr] > 0) {
             delete airdropList[addr];
+
+            airdropList[addr] = 0;
+            deleteAddrFromWillDropList(addr);
+
             addressAmountMap.remove(addr);
             AirdropListAddressRemoved(addr);
             success = true;
@@ -56,7 +58,22 @@ contract AirdropList is Ownable {
 
     function removeAddressesFromAirdropList(address[] addrs) onlyOwner public returns(bool success) {
         for (uint256 i = 0; i < addrs.length; i++) {
-            success = removeAddressFromAirdropList[addrs[i]];
+            success = removeAddressFromAirdropList(addrs[i]);
+        }
+    }
+
+
+    //delete an address from given array
+    function deleteAddrFromWillDropList(address addr) {
+        if(willAirdropList.length > 0){
+
+            for (uint i=0; i<willAirdropList.length - 1; i++){
+                if (willAirdropList[i] == addr) {
+                    willAirdropList[i] = willAirdropList[willAirdropList.length - 1];
+                    break;
+                }
+            }
+            willAirdropList.length -= 1;
         }
     }
 

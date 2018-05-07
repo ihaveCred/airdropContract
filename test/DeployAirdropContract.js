@@ -53,13 +53,13 @@ function deploy() {
     airdropContract.defaults({from: '0x7355f48ad49f356353a52e02342c47ae452ff04e'});
 
     const LBAAddress = '0x97edb2724ea47bc48e1ea50d139d92ff7fbf8b24';
-    const airDropSupply = ethUtil.eth2Wei('2000');
+    const airDropSupply = ethUtil.eth2Wei('100');
 
     airdropContract.new(
         LBAAddress, //LBA token contract address
         airDropSupply, //
         1525258592, //
-        1525517792) //
+        1526381792) //
         .then(function (instance) {
 
             console.log(instance.transactionHash);
@@ -80,4 +80,4 @@ function deploy() {
         }).catch(console.log);
 }
 
-// deploy();
+deploy();
