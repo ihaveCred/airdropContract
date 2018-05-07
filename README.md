@@ -32,7 +32,8 @@ Example:
             }).catch(console.log);
             
    ######B) Airdrop tokens batch
-   The owner or admins should add the airdropList to this contract first.
+   The owner or admins should add receivers and amounts into the airdropList first.Receivers array and amount array index must be one by one,
+   for example: the index of address A is 3, and the index of A's amount in the second array parameter must be 3. 
     
             var accounts = new Array();
             var amounts = new Array();
