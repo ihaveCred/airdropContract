@@ -130,5 +130,9 @@ contract AirdropLibraToken is AirdropList {
         return airdropList[_addr];
     }
 
+    function updateEndTime(uint256 _newEndTime) public onlyOwnerOrAdmin {
+        airdropEndTime = _newEndTime;
+    }
+
 }
 
