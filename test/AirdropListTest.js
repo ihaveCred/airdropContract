@@ -32,13 +32,14 @@ airdropContract.at(config.contractAddr)
             console.log('new Account: ' + account);
         }
 
-        await instance.addAddressesToAirdropList(accounts, amounts).then(console.log).catch(console.log);
+        // await instance.addAddressesToAirdropList(accounts, amounts).then(console.log).catch(console.log);
 
         // for (let i = 0; i < accounts.length; i++){
-        //     await instance.addAddressToAirdropList(accounts[i], ethUtil.eth2Wei('1'));
+        //    await instance.addAddressToAirdropList('0x3e1c23f862c4E1CF1f927EF0e9f1014FC8F57aA2', ethUtil.eth2Wei('2.5'));
         // }
 
-        //await instance.airdropTokensFromAddresList().then(console.log);
+       await instance.airdropTokensFromAddresList().then(console.log);
 
-        //instance.airdropList('0x696dc02Ce137F6690c83FA348290e59E70EdFf28').then(console.log);
+        // instance.airdropList('0x3e1c23f862c4E1CF1f927EF0e9f1014FC8F57aA2').then(console.log);
+        //instance.airdropTokens('0x39B3Ab4Ec1b37e9152A5DA684484CbD73c1F7ea4', ethUtil.eth2Wei('2.5')).then(console.log);
     }).catch(console.log);

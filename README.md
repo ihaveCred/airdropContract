@@ -15,7 +15,8 @@ This is a smart contract for airdrop LBA tokens
 Replace the contractAddr field value in the test/config.js file with the contract address generated in the third step
 
 Example:
-   ######A) Airdrop tokens single 
+
+   ###### A) Airdrop tokens single 
             airdropContract.setProvider(hdProvider);
             airdropContract.defaults({
                 from: config.account.owner //contract creator or admin
@@ -30,8 +31,9 @@ Example:
         
         
             }).catch(console.log);
-            
-   ######B) Airdrop tokens batch
+
+
+   ###### B) Airdrop tokens batch
    The owner or admins should add receivers and amounts into the airdropList first.Receivers array and amount array index must be one by one,
    for example: the index of address A is 3, and the index of A's amount in the second array parameter must be 3. 
     

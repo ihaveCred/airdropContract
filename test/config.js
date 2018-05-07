@@ -5,11 +5,12 @@ var account = {
     user3: '0x85bec395ea2d514327ea24110cdf4486ac546049'
 };
 
-var  contractAddr= '0x94d93528b4d520a68ab70e210d898a7300a78715';
+var  contractAddr= '0x5814f62c78c5f415ff80c4570fa24560faff887f';
 
-var etherscanUrl = '';
+var mnemonic = 'xxx';
 
 module.exports = {
     account,
-    contractAddr
+    contractAddr,
+    mnemonic
 };
