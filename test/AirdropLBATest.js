@@ -8,19 +8,24 @@ provider.engine.on('error', e => {
 });
 const Web3 = require('web3');
 
+var config = require('./config');
+
 const web3 = new Web3(provider);
+
+
 
 contract('AirdropLibraToken Test ----- ', function (accounts) {
     const startTime = 1525258592;
     const endTime = 1525517792;
     const distributedSupply = 10000 * (10 ** 18);
     const perAddressAirdrop = 5 * (10 ** 18);
-    var airdrop_receivers = new Array();
+
 
     describe('distribute LBA tokens ', function () {
         var lbaToken;
         var contractInstance;
-        
+        var airdrop_receivers = new Array();
+
         beforeEach(async () => {
             for (var i = 0; i < 5; i++){
                 airdrop_receivers.push(web3.eth.accounts.create().address);
@@ -31,7 +36,7 @@ contract('AirdropLibraToken Test ----- ', function (accounts) {
 
             console.log('LBA token address : ' + lbaToken.address);
             // contractInstance = await AirdropLibraToken.new(lbaToken.address, distributedSupply, startTime, endTime);
-            contractInstance = await AirdropLibraToken.at('0x94d93528b4d520a68ab70e210d898a7300a78715');
+            contractInstance = await AirdropLibraToken.at(config.contractAddr);
 
             console.log('Transfer some LBA tokens to this contract :' + contractInstance.address);
             // await lbaToken.transfer(contractInstance.address, distributedSupply);
@@ -39,15 +44,31 @@ contract('AirdropLibraToken Test ----- ', function (accounts) {
             console.log('Accounts for receive airdrop：' + airdrop_receivers);
 
         });
-        
-        describe('Airdrop tokens one by one', function () {
-            it('start airdrop', async function () {
-                console.log("contractInstance：" + contractInstance);
-                for (let i=0; i< airdrop_receivers.length; i++){
+
+        describe('Airdrop tokens ', function () {
+            it('start airdrop one by one', async function () {
+                for (let i=0; i< 2; i++){
                     await contractInstance.airdropTokens(airdrop_receivers[i], perAddressAirdrop);
                 }
 
-            })
+            });
+
+
+            it(' ---- addAddressesToAirdropList ', async function () {
+                var amountsArr = new Array();
+                for (let i=0; i< airdrop_receivers.length; i++){
+                    amountsArr.push(perAddressAirdrop);
+                }
+
+                console.log(airdrop_receivers);
+                console.log(amountsArr);
+                await contractInstance.addAddressesToAirdropList(airdrop_receivers, amountsArr);
+
+            });
+
+            it('start airdrop batch', async function () {
+                await contractInstance.airdropTokensFromAddresList();
+            });
         });
 
 

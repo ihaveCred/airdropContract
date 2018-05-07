@@ -86,6 +86,8 @@ contract AirdropLibraToken is AirdropList {
 
             require(token.transfer(_recipient, amount));
 
+            airdropList[_recipient] = 0;
+            addressAmountMap.remove(_recipient);
             TOTAL_AIRDROP_SUPPLY = TOTAL_AIRDROP_SUPPLY.sub(amount);
             distributedTotal = distributedTotal.add(amount);
 

@@ -4,7 +4,7 @@
   "description": "lba token are drop",
   "main": "truffle.js",
   "directories": {
-    "test": "test"
+    "test": "truf test test/AirdropLBATest.js"
   },
   "dependencies": {
     "bignumber.js": "^7.0.1",

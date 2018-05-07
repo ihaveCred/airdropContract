@@ -31,6 +31,7 @@ function deploy() {
     var files = ['../contracts/LibraToken.sol',
         '../contracts/AirdropLibraToken.sol',
         '../contracts/AirdropList.sol',
+        '../contracts/strings.sol',
         '../contracts/itMaps.sol',
         '../node_modules/zeppelin-solidity/contracts/token/ERC20/StandardToken.sol',
         '../node_modules/zeppelin-solidity/contracts/math/SafeMath.sol',
@@ -51,8 +52,8 @@ function deploy() {
     airdropContract.setProvider(hdProvider);
     airdropContract.defaults({from: '0x7355f48ad49f356353a52e02342c47ae452ff04e'});
 
-    const LBAAddress = '0x4ea9d5265acde72b998fb24ff47bedce230896aa';
-    const airDropSupply = ethUtil.eth2Wei('100');
+    const LBAAddress = '0x97edb2724ea47bc48e1ea50d139d92ff7fbf8b24';
+    const airDropSupply = ethUtil.eth2Wei('2000');
 
     airdropContract.new(
         LBAAddress, //LBA token contract address
@@ -69,7 +70,6 @@ function deploy() {
             tokenContract.defaults({from: '0x7355f48ad49f356353a52e02342c47ae452ff04e'});
             tokenContract.at(LBAAddress)
                 .then(function (token) {
-
                     token.transfer(instance.address, airDropSupply ).then(result => {
                         console.log('Transfer success.');
                         process.exit(0);
@@ -79,3 +79,5 @@ function deploy() {
 
         }).catch(console.log);
 }
+
+// deploy();
