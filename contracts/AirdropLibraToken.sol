@@ -86,8 +86,10 @@ contract AirdropLibraToken is AirdropList {
 
             require(token.transfer(_recipient, amount));
 
-            airdropList[_recipient] = 0;
+            delete airdropList[_recipient];
+            airdropDoneList[_recipient] = amount;
             addressAmountMap.remove(_recipient);
+
             TOTAL_AIRDROP_SUPPLY = TOTAL_AIRDROP_SUPPLY.sub(amount);
             distributedTotal = distributedTotal.add(amount);
 
@@ -119,5 +121,14 @@ contract AirdropLibraToken is AirdropList {
     function isAdmin(address _addr) public view returns (bool){
         return airdropAdmins[_addr];
     }
+
+    function getAirdroppedAmount(address _addr) public view returns (uint256){
+        return airdropDoneList[_addr];
+    }
+
+    function getWillBeAirdroppedAmount(address _addr) public view returns (uint256){
+        return airdropList[_addr];
+    }
+
 }
 

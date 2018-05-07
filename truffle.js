@@ -2,9 +2,8 @@ require('babel-register')({
     ignore: /node_modules\/(?!zeppelin-solidity)/
 });
 require('babel-polyfill');
+var mnemonic = require('./config').mnemonic;
 var HDWalletProvider = require("truffle-hdwallet-provider");
-
-var mnemonic = "mnemonic";
 
 module.exports = {
     mocha: {
