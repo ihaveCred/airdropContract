@@ -2,7 +2,7 @@ require('babel-register')({
     ignore: /node_modules\/(?!zeppelin-solidity)/
 });
 require('babel-polyfill');
-var mnemonic = require('./config').mnemonic;
+var mnemonic = require('./test/config').mnemonic;
 var HDWalletProvider = require("truffle-hdwallet-provider");
 
 module.exports = {
