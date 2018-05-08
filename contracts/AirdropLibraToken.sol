@@ -29,11 +29,11 @@ contract AirdropLibraToken is AirdropList {
     mapping (address => bool) public airdropAdmins;
 
 
-    //the list that has been airdropped addresses
-    address[] public airdropDoneList;
 
     //the map that has been aridropped with address and amount
     mapping(address => uint256) airdropDoneAmountMap;
+    //the list that has been airdropped addresses
+    address[] public airdropDoneList;
 
 
     //airdrop event
@@ -96,7 +96,10 @@ contract AirdropLibraToken is AirdropList {
         require(lbaBalance >= amount);
 
         require(token.transfer(_recipient, amount));
-        airdropList[_recipient] = 0;
+
+        //delete from todo list and map
+        todoAirdropMap[_recipient] = 0;
+        super.deleteAddrFromWillDropList(_recipient);
 
         //put address into has done list
         airdropDoneList.push(_recipient);
@@ -112,13 +115,6 @@ contract AirdropLibraToken is AirdropList {
         airdropDoneAmountMap[_recipient] = airDropAmountThisAddr;
 
 
-        super.deleteAddrFromWillDropList(_recipient);
-
-        //remove from the airdrop map
-        if(addressAmountMap.contains(_recipient)){
-            addressAmountMap.remove(_recipient);
-        }
-
         if(TOTAL_AIRDROP_SUPPLY != lbaBalance){
             TOTAL_AIRDROP_SUPPLY = lbaBalance;
         }
@@ -129,14 +125,17 @@ contract AirdropLibraToken is AirdropList {
 
     }
 
-    function airdropTokensFromAddresList() public onlyOwnerOrAdmin onlyWhileAirdropPhaseOpen{
-        if(addressAmountMap.size() > 0){
-            uint tmpInt = addressAmountMap.size();
-            for (uint i = 0; i < tmpInt; i++){
-                airdropTokens(addressAmountMap.getKeyByIndex(i), addressAmountMap.getValueByIndex(i));
-                --tmpInt;
-                --i;
+    function airdropTokensFromAddressList() public onlyOwnerOrAdmin onlyWhileAirdropPhaseOpen{
+        if(todoAirdropList.length > 0){
+            airdropLock = true;
+            for (uint i = 0; i < todoAirdropList.length; i++){
+                if(todoAirdropMap[todoAirdropList[i]] > 0){
+                    airdropTokens(todoAirdropList[i], todoAirdropMap[todoAirdropList[i]]);
+                    --i;
+                }
             }
+
+            airdropLock = false;
         }
 
     }
@@ -173,11 +172,6 @@ contract AirdropLibraToken is AirdropList {
         airdropEndTime = _newEndTime;
     }
 
-    //get the amount in the airdrop list
-    function getAirdropAmountByAddress(address _user) public view returns (uint256) {
-        return airdropList[_user];
-    }
-
     //get all addresses that has been airdropped
     function getDoneAddresses() public constant returns (address[]){
         return airdropDoneList;
@@ -189,9 +183,13 @@ contract AirdropLibraToken is AirdropList {
     }
 
     //get all addresses that will be airdropped, those addresses have not yet be distributed candy
-    function getWillDropAddresses() public constant returns (address[]){
-        return willAirdropList;
+    function getTodoAirdropAddresses() public constant returns (address[]){
+        return todoAirdropList;
     }
 
+    //get the amount in the todo airdrop list
+    function getTodoAirdropAmount(address _user) public view returns (uint256) {
+        return todoAirdropMap[_user];
+    }
 }
 
