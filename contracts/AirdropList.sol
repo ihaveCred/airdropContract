@@ -2,11 +2,9 @@ pragma solidity ^0.4.17;
 
 import "../node_modules/zeppelin-solidity/contracts/math/SafeMath.sol";
 import "../node_modules/zeppelin-solidity/contracts/ownership/Ownable.sol";
-import "./strings.sol";
 import "./itMaps.sol";
 
 contract AirdropList is Ownable {
-    using strings for *;
     using itMaps for itMaps.itMapAddressUint;
 
     itMaps.itMapAddressUint addressAmountMap;
@@ -35,6 +33,7 @@ contract AirdropList is Ownable {
         success = true;
     }
 
+    //the address index in addrs and the amount in amounts must be one by one
     function addAddressesToAirdropList(address[] addrs, uint256[] amounts) onlyOwner public returns(bool success) {
         require(addrs.length == amounts.length);
         for(uint256 i = 0; i < addrs.length; i++){
@@ -64,7 +63,7 @@ contract AirdropList is Ownable {
 
 
     //delete an address from given array
-    function deleteAddrFromWillDropList(address addr) {
+    function deleteAddrFromWillDropList(address addr) internal{
         if(willAirdropList.length > 0){
 
             for (uint i=0; i<willAirdropList.length - 1; i++){
