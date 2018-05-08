@@ -31,9 +31,9 @@ function main() {
             console.log('getDistributedTotal: ' + ethUtil.wei2Eth(result.toString()))
         }).catch(console.log)
 
-        //getAirdropAmountByAddress
-        instance.getAirdropAmountByAddress('0x6deba915baeedcb4a75282d6716442b872861516').then(result => {
-            console.log('getAirdropAmountByAddress: ' + ethUtil.wei2Eth(result.toString()))
+        //getTodoAirdropAmounts
+        instance.getTodoAirdropAmount('0x132acb73fd8047b523ed3b0642d4b1224bf9bc4b').then(result => {
+            console.log('getTodoAirdropAmounts: ' + ethUtil.wei2Eth(result.toString()))
         }).catch(console.log)
 
         //isAdmin
@@ -46,10 +46,6 @@ function main() {
         //     console.log('addAdmin: ' + result)
         // }).catch(console.log);
 
-        //airdropList
-        instance.airdropList('0xEF767D2E65907f54A7b8e68fD3d8A54582096Dd5').then(result => {
-            console.log('airdropList: ' + result)
-        }).catch(console.log);
 
         //airdropDoneList
         // instance.airdropDoneList().then(result => {
@@ -63,20 +59,14 @@ function main() {
         }).catch(console.log);
 
         //getWillDropAddresses
-        instance.getWillDropAddresses().then(result => {
+        instance.getTodoAirdropAddresses().then(result => {
             console.log('getWillDropAddresses: ' + result)
         }).catch(console.log);
 
         //getDoneAirdropAmount
-        instance.getDoneAirdropAmount('0x5Fe4d4b289c408000Af1b1e541F7195F8165eC34').then(result => {
+        instance.getDoneAirdropAmount('0x132acb73fd8047b523ed3b0642d4b1224bf9bc4b').then(result => {
             console.log('getDoneAirdropAmount: ' + result)
         }).catch(console.log);
-
-        //getAirdropAmountByAddress
-        instance.getAirdropAmountByAddress('0x5Fe4d4b289c408000Af1b1e541F7195F8165eC34').then(result => {
-            console.log('getAirdropAmountByAddress: ' + result)
-        }).catch(console.log);
-
 
 
 
