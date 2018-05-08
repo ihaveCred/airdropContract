@@ -59,8 +59,10 @@ contract AirdropLibraToken is AirdropList {
     }
 
     function removeAdmin(address _admin) public onlyOwner {
-        airdropAdmins[_admin] = false;
-        RemoveAdmin(_admin);
+        if(isAdmin(_admin)){
+            airdropAdmins[_admin] = false;
+            RemoveAdmin(_admin);
+        }
     }
 
 
