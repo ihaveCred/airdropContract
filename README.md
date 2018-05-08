@@ -22,7 +22,7 @@ Example:
                 from: config.account.owner //contract creator or admin
             });
         
-            tokenContract.at(config.contractAddr).then(instance => {
+            airdropContract.at(config.contractAddr).then(instance => {
         
                 //airdropTokens
                 instance.airdropTokens('0x837745738...', ethUtil.eth2Wei(amount)).then(result => {
