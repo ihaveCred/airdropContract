@@ -52,7 +52,7 @@ Example:
    
             instance.airdropTokensFromAddresList().then(console.log);
             
-###FAQ        
+### FAQ        
 #### Q: How did i know that my LBA tokens have been arrived
      1) You can track the aridrop transaction on this website:https://etherscan.io/,
         enter your reveive address and query it.Unfold 'Token Balances' options and you will see the LBA balance.
