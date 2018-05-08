@@ -22,8 +22,8 @@ contract AirdropLibraToken is AirdropList {
     uint256 airdropStartTime;
     uint256 airdropEndTime;
 
-    // The token being dropped
-    LibraToken public token;
+    // The LBA token
+    LibraToken private token;
 
     // List of admins
     mapping (address => bool) public airdropAdmins;
@@ -39,7 +39,12 @@ contract AirdropLibraToken is AirdropList {
     //airdrop event
     event Airdrop(address _receiver, uint256 amount);
 
-    event Addadmin(address _admin);
+    event AddAdmin(address _admin);
+
+    event RemoveAdmin(address _admin);
+
+    event UpdateEndTime(address _operator, uint256 _oldTime, uint256 _newTime);
+
 
 
     modifier onlyOwnerOrAdmin() {
@@ -50,7 +55,14 @@ contract AirdropLibraToken is AirdropList {
 
     function addAdmin(address _admin) public onlyOwner {
         airdropAdmins[_admin] = true;
-        Addadmin(_admin);
+        AddAdmin(_admin);
+    }
+
+    function removeAdmin(address _admin) public onlyOwner {
+        if(isAdmin(_admin)){
+            airdropAdmins[_admin] = false;
+            RemoveAdmin(_admin);
+        }
     }
 
 
@@ -78,7 +90,10 @@ contract AirdropLibraToken is AirdropList {
 
     function airdropTokens(address _recipient, uint256 amount) public onlyOwnerOrAdmin onlyWhileAirdropPhaseOpen {
         require(amount > 0);
-        require(token.balanceOf(this) >= amount);
+
+        uint256 lbaBalance = token.balanceOf(this);
+
+        require(lbaBalance >= amount);
 
         require(token.transfer(_recipient, amount));
         airdropList[_recipient] = 0;
@@ -104,7 +119,9 @@ contract AirdropLibraToken is AirdropList {
             addressAmountMap.remove(_recipient);
         }
 
-
+        if(TOTAL_AIRDROP_SUPPLY != lbaBalance){
+            TOTAL_AIRDROP_SUPPLY = lbaBalance;
+        }
         TOTAL_AIRDROP_SUPPLY = TOTAL_AIRDROP_SUPPLY.sub(amount);
         distributedTotal = distributedTotal.add(amount);
 
@@ -117,7 +134,6 @@ contract AirdropLibraToken is AirdropList {
             uint tmpInt = addressAmountMap.size();
             for (uint i = 0; i < tmpInt; i++){
                 airdropTokens(addressAmountMap.getKeyByIndex(i), addressAmountMap.getValueByIndex(i));
-                //tmpInt = addressAmountMap.size();
                 --tmpInt;
                 --i;
             }
@@ -153,6 +169,7 @@ contract AirdropLibraToken is AirdropList {
     }
 
     function updateAirdropEndTime(uint256 _newEndTime) public onlyOwnerOrAdmin {
+        UpdateEndTime(msg.sender, airdropEndTime, _newEndTime);
         airdropEndTime = _newEndTime;
     }
 
