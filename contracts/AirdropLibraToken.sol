@@ -13,7 +13,7 @@ contract AirdropLibraToken is AirdropList {
     uint256 decimal = 10**uint256(18);
 
     //How many tokens will be airdropped
-    uint256 TOTAL_AIRDROP_SUPPLY = 0;
+    uint256 TOTAL_AIRDROP_SUPPLY = 4000000;
     uint256 TOTAL_AIRDROP_SUPPLY_UNITS = TOTAL_AIRDROP_SUPPLY.mul(decimal)  ;
 
     //How many tokens has been distributed
@@ -30,7 +30,7 @@ contract AirdropLibraToken is AirdropList {
 
 
 
-    //the map that has been aridropped with address and amount
+    //the map that has been airdropped, key -- address ,value -- amount
     mapping(address => uint256) airdropDoneAmountMap;
     //the list that has been airdropped addresses
     address[] public airdropDoneList;
@@ -140,7 +140,7 @@ contract AirdropLibraToken is AirdropList {
 
     }
 
-    function transferOutBalance() public onlyOwner() returns (bool){
+    function transferOutBalance() public onlyOwner returns (bool){
         address creator = msg.sender;
         uint256 _balanceOfThis = token.balanceOf(this);
         if(_balanceOfThis > 0){

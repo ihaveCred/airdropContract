@@ -60,6 +60,6 @@ Example:
         on this website: https://metamask.io/.
         After wallet installed, you should add the LBA token into your MetaMask wallet, paste the
         LBA token address '0xfe5f141bf94fe84bc28ded0ab966c16b17490657' into your wallet and then the token
-        balance will refresh automatic.
+        balance will refresh automatically.
 
    
