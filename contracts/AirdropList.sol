@@ -2,7 +2,6 @@ pragma solidity ^0.4.17;
 
 import "../node_modules/zeppelin-solidity/contracts/math/SafeMath.sol";
 import "../node_modules/zeppelin-solidity/contracts/ownership/Ownable.sol";
-import "./itMaps.sol";
 
 contract AirdropList is Ownable {
 
