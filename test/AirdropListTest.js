@@ -25,21 +25,14 @@ airdropContract.at(config.contractAddr)
 
         var accounts = new Array();
         var amounts = new Array();
-        for(var i=0; i < 5 ; i++){
+        for(var i=0; i < 40 ; i++){
             let account = web3.eth.accounts.create().address;
             accounts.push(account);
-            amounts.push(2 * (10 ** 18));
+            amounts.push(1 * (10 ** 18));
             console.log('new Account: ' + account);
         }
+        //0xfe5f141bf94fe84bc28ded0ab966c16b17490657
 
-        // await instance.addAddressesToAirdropList(accounts, amounts).then(console.log).catch(console.log);
+        await instance.airdropTokensBatch(accounts, amounts).then(console.log).catch(console.log);
 
-        // for (let i = 0; i < accounts.length; i++){
-        //    await instance.addAddressToAirdropList('0x3e1c23f862c4E1CF1f927EF0e9f1014FC8F57aA2', ethUtil.eth2Wei('2.5'));
-        // }
-
-       await instance.airdropTokensFromAddresList().then(console.log);
-
-        // instance.airdropList('0x3e1c23f862c4E1CF1f927EF0e9f1014FC8F57aA2').then(console.log);
-        //instance.airdropTokens('0x39B3Ab4Ec1b37e9152A5DA684484CbD73c1F7ea4', ethUtil.eth2Wei('2.5')).then(console.log);
     }).catch(console.log);
