@@ -3,10 +3,9 @@ pragma solidity ^0.4.17;
 import "../node_modules/zeppelin-solidity/contracts/math/SafeMath.sol";
 import "../node_modules/zeppelin-solidity/contracts/ownership/Ownable.sol";
 import "./LibraToken.sol";
-import "./AirdropList.sol";
 
 
-contract AirdropLibraToken is AirdropList {
+contract AirdropLibraToken is Ownable {
     using SafeMath for uint256;
 
 
@@ -31,7 +30,7 @@ contract AirdropLibraToken is AirdropList {
 
 
     //the map that has been airdropped, key -- address ,value -- amount
-    mapping(address => uint256) airdropDoneAmountMap;
+    mapping(address => uint256) public airdropDoneAmountMap;
     //the list that has been airdropped addresses
     address[] public airdropDoneList;
 
@@ -97,9 +96,6 @@ contract AirdropLibraToken is AirdropList {
 
         require(token.transfer(_recipient, amount));
 
-        //delete from todo list and map
-        todoAirdropMap[_recipient] = 0;
-        super.deleteAddrFromWillDropList(_recipient);
 
         //put address into has done list
         airdropDoneList.push(_recipient);
@@ -114,30 +110,18 @@ contract AirdropLibraToken is AirdropList {
 
         airdropDoneAmountMap[_recipient] = airDropAmountThisAddr;
 
-
-        if(TOTAL_AIRDROP_SUPPLY != lbaBalance){
-            TOTAL_AIRDROP_SUPPLY = lbaBalance;
-        }
-        TOTAL_AIRDROP_SUPPLY = TOTAL_AIRDROP_SUPPLY.sub(amount);
         distributedTotal = distributedTotal.add(amount);
 
         Airdrop(_recipient, amount);
 
     }
 
-    function airdropTokensFromAddressList() public onlyOwnerOrAdmin onlyWhileAirdropPhaseOpen{
-        if(todoAirdropList.length > 0){
-            airdropLock = true;
-            for (uint i = 0; i < todoAirdropList.length; i++){
-                if(todoAirdropMap[todoAirdropList[i]] > 0){
-                    airdropTokens(todoAirdropList[i], todoAirdropMap[todoAirdropList[i]]);
-                    --i;
-                }
-            }
-
-            airdropLock = false;
+    //batch airdrop, key-- the receiver's address, value -- receiver's amount
+    function airdropTokensBatch(address[] receivers, uint256[] amounts) public onlyOwnerOrAdmin onlyWhileAirdropPhaseOpen{
+        require(receivers.length > 0 && receivers.length == amounts.length);
+        for (uint256 i = 0; i < receivers.length; i++){
+            airdropTokens(receivers[i], amounts[i]);
         }
-
     }
 
     function transferOutBalance() public onlyOwner returns (bool){
@@ -153,8 +137,8 @@ contract AirdropLibraToken is AirdropList {
     }
 
     //How many tokens are left without payment
-    function getAirdropSupply() public onlyOwnerOrAdmin view returns (uint256){
-        return TOTAL_AIRDROP_SUPPLY;
+    function balanceOfThis() public onlyOwnerOrAdmin view returns (uint256){
+        return token.balanceOf(this);
     }
 
     //how many tokens have been distributed
@@ -182,14 +166,5 @@ contract AirdropLibraToken is AirdropList {
         return airdropDoneAmountMap[_addr];
     }
 
-    //get all addresses that will be airdropped, those addresses have not yet be distributed candy
-    function getTodoAirdropAddresses() public constant returns (address[]){
-        return todoAirdropList;
-    }
-
-    //get the amount in the todo airdrop list
-    function getTodoAirdropAmount(address _user) public view returns (uint256) {
-        return todoAirdropMap[_user];
-    }
 }
 
