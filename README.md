@@ -34,7 +34,8 @@ Example:
 
 
    ###### B) Airdrop tokens batch
-   The owner or admins should add receivers and amounts into the airdropList first.Receivers array and amount array index must be one by one,
+   The owner or admins can call the function 'airdropTokensBatch(address[] receivers, uint256 amounts)' to do airdrop batch transaction.
+   Please note that the receivers array and amount array index must be one by one,
    for example: the index of address A is 3, and the index of A's amount in the second array parameter must be 3. 
     
             var accounts = new Array();
@@ -46,11 +47,8 @@ Example:
                 console.log('new Account: ' + account);
             }
     
-            instance.addAddressesToAirdropList(accounts, amounts).then(console.log).catch(console.log);
+            instance.airdropTokensBatch(accounts, amounts).then(console.log).catch(console.log);
    
-   And then call the function "airdropTokensFromAddresList" to execute transaction.
-   
-            instance.airdropTokensFromAddresList().then(console.log);
             
 ### FAQ        
 #### Q: How did i know that my LBA tokens have been arrived
