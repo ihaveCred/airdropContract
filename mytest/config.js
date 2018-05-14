@@ -5,9 +5,9 @@ var account = {
     user3: '0x85bec395ea2d514327ea24110cdf4486ac546049'
 };
 
-var  contractAddr= '0x5814f62c78c5f415ff80c4570fa24560faff887f';
+var  contractAddr= '0xd977a20d41c0896d89e5d22f7c7e6dadabae3fc9';
 
-var mnemonic = 'xxx';
+var mnemonic = 'torch hospital call alien alien render essay duck boat vivid blossom reject';
 
 module.exports = {
     account,
