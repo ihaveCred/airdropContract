@@ -22,8 +22,8 @@ function main() {
     tokenContract.at(config.contractAddr).then(instance => {
 
         //getAirdropSupply
-        instance.getAirdropSupply().then(result => {
-            console.log('getAirdropSupply: ' + ethUtil.wei2Eth(result.toString()))
+        instance.balanceOfThis().then(result => {
+            console.log('balanceOfThis: ' + ethUtil.wei2Eth(result.toString()))
         }).catch(console.log)
 
         //getDistributedTotal
@@ -31,10 +31,6 @@ function main() {
             console.log('getDistributedTotal: ' + ethUtil.wei2Eth(result.toString()))
         }).catch(console.log)
 
-        //getTodoAirdropAmounts
-        instance.getTodoAirdropAmount('0x132acb73fd8047b523ed3b0642d4b1224bf9bc4b').then(result => {
-            console.log('getTodoAirdropAmounts: ' + ethUtil.wei2Eth(result.toString()))
-        }).catch(console.log)
 
         //isAdmin
         instance.isAdmin('0x6e27727Bbb9F0140024A62822f013385F4194999').then(result => {
@@ -47,20 +43,10 @@ function main() {
         // }).catch(console.log);
 
 
-        //airdropDoneList
-        // instance.airdropDoneList().then(result => {
-        //     console.log('airdropDoneList: ' + result)
-        // }).catch(console.log);
-
 
         //airdropDoneList
         instance.getDoneAddresses().then(result => {
-            console.log('getDoneAddresses: ' + result)
-        }).catch(console.log);
-
-        //getWillDropAddresses
-        instance.getTodoAirdropAddresses().then(result => {
-            console.log('getWillDropAddresses: ' + result)
+            console.log('getDoneAddresses: ' + result.length)
         }).catch(console.log);
 
         //getDoneAirdropAmount

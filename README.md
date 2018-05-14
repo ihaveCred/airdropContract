@@ -31,6 +31,21 @@ Example:
         
         
             }).catch(console.log);
+            
+### 5 contract operation
+        instance.updateAirdropEndTime(newEndTime);
+   param: 'newEndTime' --- unix timestamp.
+   
+   effect: Allow owner or admin modify airdrop end time .
+   
+        instance.transferOutBalance();
+   effect: This function can transfer all LBA balance of this contract to the owner.
+   
+        instance.addAdmin(newAdminAddress);
+        instance.removeAdmin(adminAddress);
+   param: address which will added or removed admin.
+   
+   effect: Allow owner add or remove a admin address from this contract.
 
 
    ###### B) Airdrop tokens batch
