@@ -124,7 +124,7 @@ contract AirdropLibraToken is Ownable {
         }
     }
 
-    function transferOutBalance() public onlyOwner returns (bool){
+    function transferOutBalance() public onlyOwner view returns (bool){
         address creator = msg.sender;
         uint256 _balanceOfThis = token.balanceOf(this);
         if(_balanceOfThis > 0){
@@ -137,7 +137,7 @@ contract AirdropLibraToken is Ownable {
     }
 
     //How many tokens are left without payment
-    function balanceOfThis() public onlyOwnerOrAdmin view returns (uint256){
+    function balanceOfThis() public view returns (uint256){
         return token.balanceOf(this);
     }
 
