@@ -1,5 +1,5 @@
 var LibraToken = artifacts.require("./LibraToken.sol");
-var AirdropLibraToken = artifacts.require("./AirdropLibra.sol");
+var AirdropLibraToken = artifacts.require("./AirdropLibraToken.sol");
 
 module.exports = function (deployer) {
     const args = process.argv.slice();
