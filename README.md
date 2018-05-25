@@ -9,7 +9,7 @@ This is a smart contract for airdrop LBA tokens
         $ truffle complie
         
 ### 3 deploy contract
-        $ truffle migrate lbaTokenAddress airdropSupply startTime endTime
+        $ truffle migrate lbaTokenAddress startTime endTime
         
 ### 4 airdrop tokens
 Replace the contractAddr field value in the test/config.js file with the contract address generated in the third step

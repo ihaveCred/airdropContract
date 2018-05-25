@@ -11,10 +11,6 @@ contract AirdropLibraToken is Ownable {
 
     uint256 decimal = 10**uint256(18);
 
-    //How many tokens will be airdropped
-    uint256 TOTAL_AIRDROP_SUPPLY = 4000000;
-    uint256 TOTAL_AIRDROP_SUPPLY_UNITS = TOTAL_AIRDROP_SUPPLY.mul(decimal)  ;
-
     //How many tokens has been distributed
     uint256 distributedTotal = 0;
 
@@ -73,7 +69,6 @@ contract AirdropLibraToken is Ownable {
 
     function AirdropLibraToken(
         ERC20 _token,
-        uint256 _airdropTotal,
         uint256 _airdropStartTime,
         uint256 _airdropEndTime
     ) public {
@@ -81,9 +76,6 @@ contract AirdropLibraToken is Ownable {
         TOTAL_AIRDROP_SUPPLY = _airdropTotal;
         airdropStartTime = _airdropStartTime;
         airdropEndTime = _airdropEndTime;
-
-        TOTAL_AIRDROP_SUPPLY_UNITS = TOTAL_AIRDROP_SUPPLY.mul(decimal);
-
     }
 
 
