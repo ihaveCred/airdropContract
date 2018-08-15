@@ -49,15 +49,11 @@ contract AirdropLibraToken {
         }
     }
 
-    function transferOutBalance() public onlyOwner view returns (bool){
-        address creator = msg.sender;
+    function transferOutBalance() public onlyOwner {
+
         uint256 _balanceOfThis = token.balanceOf(this);
         if(_balanceOfThis > 0){
-            LibraToken(token).approve(this, _balanceOfThis);
-            LibraToken(token).transferFrom(this, creator, _balanceOfThis);
-            return true;
-        }else{
-            return false;
+            token.transfer(owner, _balanceOfThis);
         }
     }
 
